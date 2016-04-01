@@ -70,14 +70,14 @@ After you have collected the user subscriptions you can send them push notificat
 Notification notification = pushpad.buildNotification("Website Name", "Hello world!", "http://example.com");
 
 try {
-  # deliver the notification to a user
+  // deliver the notification to a user
   notification.deliverTo("100");
 
-  # deliver the notification to a group of users
+  // deliver the notification to a group of users
   String[] uids = {"123", "100"};
   notification.deliverTo(uids);
 
-  # deliver to everyone
+  // deliver to everyone
   notification.broadcast();
 } catch (DeliveryException e) {
   e.printStackTrace();
