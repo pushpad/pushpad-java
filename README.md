@@ -1,4 +1,4 @@
-# Pushpad: real push notifications for websites
+# Pushpad - Web Push Notifications
 
 Add native push notifications to your web app using [Pushpad](https://pushpad.xyz).
 
@@ -34,14 +34,16 @@ String projectId = "123";
 Pushpad pushpad = new Pushpad(authToken, projectId);
 ```
 
-`auth_token` can be found in the user account settings. 
-`project_id` can be found in the project settings on Pushpad.
+- `auth_token` can be found in the user account settings. 
+- `project_id` can be found in the project settings.
 
-## Collecting user subscriptions
+## Collecting user subscriptions to push notifications
+
+Pushpad offers two different ways to collect subscriptions. [Learn more](https://pushpad.xyz/docs#simple_vs_custom_api_docs)
 
 ### Custom API
 
-Read the [docs](https://pushpad.xyz/docs#custom_api_docs).
+Choose the Custom API if you want to use Javascript for a seamless integration. [Read the docs](https://pushpad.xyz/docs#custom_api_docs)
 
 If you need to generate the HMAC signature for the `uid` you can use this helper:
 
@@ -62,9 +64,7 @@ pushpad.pathFor(currentUserId) // Subscribe current user to push notifications
 
 When a user clicks the link is sent to Pushpad, automatically asked to receive push notifications and redirected back to your website.
 
-## Sending notifications
-
-After you have collected the user subscriptions you can send them push notifications:
+## Sending push notifications
 
 ```java
 Notification notification = pushpad.buildNotification("Website Name", "Hello world!", "http://example.com");
@@ -86,9 +86,9 @@ try {
 
 If no user with that id has subscribed to push notifications, that id is simply ignored.
 
-The methods above return a JSONObject: `res.get("scheduled")` contains the number of notifications that will be sent. For example if you call `notification.deliverTo(user)` but the user has never subscribed to push notifications the result will be `{"scheduled": 0}`.
+The methods above return a JSONObject: `res.get("scheduled")` is the number of devices to which the notification will be sent.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The library is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
