@@ -84,6 +84,8 @@ try {
 }
 ```
 
+The notification title and body have a max length of 30 and 90 characters, respectively.
+
 If no user with that id has subscribed to push notifications, that id is simply ignored.
 
 The methods above return a JSONObject: `res.get("scheduled")` is the number of devices to which the notification will be sent.
