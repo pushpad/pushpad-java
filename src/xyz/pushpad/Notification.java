@@ -22,7 +22,19 @@ public class Notification {
   }
 
   public JSONObject broadcast() throws DeliveryException{
-    return this.deliver(this.reqBody(null));
+    return this.deliver(this.reqBody(null, null));
+  }
+
+  public JSONObject broadcast(String[] tags) throws DeliveryException{
+    return this.deliver(this.reqBody(null, tags));
+  }
+
+  public JSONObject deliverTo(String[] uids) throws DeliveryException {
+    return this.deliver(this.reqBody(uids, null));
+  }
+
+  public JSONObject deliverTo(String[] uids, String[] tags) throws DeliveryException {
+    return this.deliver(this.reqBody(uids, tags));
   }
 
   public JSONObject deliverTo(String uid) throws DeliveryException {
@@ -31,11 +43,7 @@ public class Notification {
     return this.deliverTo(uids);
   }
 
-  public JSONObject deliverTo(String[] uids) throws DeliveryException {
-    return this.deliver(this.reqBody(uids));
-  }
-
-  private String reqBody(String[] uids) {
+  private String reqBody(String[] uids, String[] tags) {
     JSONObject body = new JSONObject();
     JSONObject notificationData = new JSONObject();
     notificationData.put("body", this.body);
@@ -48,6 +56,13 @@ public class Notification {
         jsonUids.add(uid);
       }
       body.put("uids", jsonUids);
+    }
+    if (tags != null) {
+      JSONArray jsonTags = new JSONArray();
+      for (String tag:tags) {
+        jsonTags.add(tag);
+      }
+      body.put("tags", jsonTags);
     }
     return body.toString();
   }

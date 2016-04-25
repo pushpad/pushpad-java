@@ -71,11 +71,20 @@ Notification notification = pushpad.buildNotification("Website Name", "Hello wor
 
 try {
   // deliver the notification to a user
-  notification.deliverTo("100");
+  notification.deliverTo("user100");
 
   // deliver the notification to a group of users
-  String[] uids = {"123", "100"};
-  notification.deliverTo(uids);
+  String[] users = {"user123", "user100"};
+  notification.deliverTo(users);
+
+  // deliver to some users only if they have a given preference
+  // e.g. only "users" who have a interested in "events" will be reached
+  String[] tags1 = {"events"};
+  notification.deliverTo(users, tags1);
+
+  // deliver to segments
+  String[] tags2 = {"segment1", "segment2"};
+  notification.broadcast(tags2);
 
   // deliver to everyone
   notification.broadcast();
