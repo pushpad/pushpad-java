@@ -1,6 +1,6 @@
-# Pushpad - Web Push Notifications
-
-Add native push notifications to your web app using [Pushpad](https://pushpad.xyz).
+# Pushpad - Web Push Notifications Service
+ 
+[Pushpad](https://pushpad.xyz) is a service for sending push notifications from your web app. It supports the **Push API** (Chrome and Firefox) and **APNs** (Safari).
 
 Features:
 
@@ -56,13 +56,13 @@ pushpad.signatureFor(currentUserId);
 Let users subscribe to your push notifications with a link that you can generate with: 
 
 ```java
-pushpad.path() // Subscribe anonymous to push notifications
-pushpad.pathFor(currentUserId) // Subscribe current user to push notifications
+pushpad.path()
+
+// If the user is logged in on your website you should track its user id to target him in the future
+pushpad.pathFor(currentUserId)
 ```
 
-`currentUserId` is the user currently logged in on your website.
-
-When a user clicks the link is sent to Pushpad, automatically asked to receive push notifications and redirected back to your website.
+When a user clicks the link is sent to Pushpad, asked to receive push notifications and redirected back to your website.
 
 ## Sending push notifications
 
