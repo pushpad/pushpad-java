@@ -67,7 +67,12 @@ When a user clicks the link is sent to Pushpad, asked to receive push notificati
 ## Sending push notifications
 
 ```java
-Notification notification = pushpad.buildNotification("Website Name", "Hello world!", "http://example.com");
+Notification notification = pushpad.buildNotification("Title", "Message", "http://example.com");
+
+// optional, defaults to the project icon
+notification.iconUrl = "http://example.com/assets/icon.png";
+// optional, drop the notification after this number of seconds if a device is offline 
+notification.ttl = 604800;
 
 try {
   // deliver the notification to a user

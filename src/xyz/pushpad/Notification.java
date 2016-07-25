@@ -13,6 +13,8 @@ public class Notification {
   public String body;
   public String title;
   public String targetUrl;
+  public String iconUrl;
+  public Integer ttl;
 
   public Notification(Pushpad pushpad, String title, String body, String targetUrl) {
     this.pushpad = pushpad;
@@ -49,6 +51,12 @@ public class Notification {
     notificationData.put("body", this.body);
     notificationData.put("title", this.title);
     notificationData.put("target_url", this.targetUrl);
+    if (this.iconUrl != null) {
+      notificationData.put("icon_url", this.iconUrl);
+    }
+    if (this.ttl != null) {
+      notificationData.put("ttl", this.ttl);
+    }
     body.put("notification", notificationData);
     if (uids != null) {
       JSONArray jsonUids = new JSONArray();
