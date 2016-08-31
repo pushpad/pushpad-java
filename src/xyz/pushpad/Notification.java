@@ -31,12 +31,15 @@ public class Notification {
     return this.deliver(this.reqBody(null, tags));
   }
 
-  public JSONObject deliverTo(String[] uids) throws DeliveryException {
-    return this.deliver(this.reqBody(uids, null));
+  public JSONObject deliverTo(String[] uids, String[] tags) throws DeliveryException {
+    if (uids == null) {
+      uids = new String[0]; // prevent broadcasting
+    }
+    return this.deliver(this.reqBody(uids, tags));
   }
 
-  public JSONObject deliverTo(String[] uids, String[] tags) throws DeliveryException {
-    return this.deliver(this.reqBody(uids, tags));
+  public JSONObject deliverTo(String[] uids) throws DeliveryException {
+    return this.deliverTo(uids, null);
   }
 
   public JSONObject deliverTo(String uid) throws DeliveryException {
