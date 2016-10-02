@@ -91,6 +91,13 @@ try {
   // e.g. any subscriber that has the tag "segment1" OR "segment2"
   String[] tags2 = {"segment1", "segment2"};
   notification.broadcast(tags2);
+  
+  // you can use boolean expressions 
+  // they must be in the disjunctive normal form (without parenthesis)
+  String[] tags3 = {"zip_code:28865 && !optout:local_events || friend_of:Organizer123"};
+  notification.broadcast(tags3);
+  String[] tags4 = {"tag1 && tag2", "tag3"}; // equal to "tag1 && tag2 || tag3"
+  notification.deliverTo(users, tags4);
 
   // deliver to everyone
   notification.broadcast();
