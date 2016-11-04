@@ -5,7 +5,7 @@ import javax.crypto.Mac;
 import java.security.SignatureException;
 import java.security.NoSuchAlgorithmException;
 import java.security.InvalidKeyException;
-import java.util.Base64;
+import javax.xml.bind.DatatypeConverter;
 
 public class Pushpad {
   public String authToken;
@@ -23,7 +23,7 @@ public class Pushpad {
       Mac mac = Mac.getInstance("HmacSHA1");
       mac.init(signingKey);
       byte[] rawHmac = mac.doFinal(data.getBytes());
-      encoded = Base64.getEncoder().withoutPadding().encodeToString(rawHmac);
+      encoded = DatatypeConverter.printHexBinary(rawHmac);
     } catch (NoSuchAlgorithmException | InvalidKeyException e) { 
       e.printStackTrace();
     }
