@@ -23,7 +23,7 @@ public class Pushpad {
       Mac mac = Mac.getInstance("HmacSHA1");
       mac.init(signingKey);
       byte[] rawHmac = mac.doFinal(data.getBytes());
-      encoded = DatatypeConverter.printHexBinary(rawHmac);
+      encoded = DatatypeConverter.printHexBinary(rawHmac).toLowerCase();
     } catch (NoSuchAlgorithmException | InvalidKeyException e) { 
       e.printStackTrace();
     }
