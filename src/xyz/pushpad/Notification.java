@@ -99,7 +99,9 @@ public class Notification {
 
       // Send request
       DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-      wr.writeBytes(reqBody);
+      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
+      writer.write(reqBody);
+      writer.close();
       wr.close();
 
       // Get Response  
