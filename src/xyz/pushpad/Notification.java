@@ -15,6 +15,7 @@ public class Notification {
   public String targetUrl;
   public String iconUrl;
   public Integer ttl;
+  public ActionButton[] actionButtons;
 
   public Notification(Pushpad pushpad, String title, String body, String targetUrl) {
     this.pushpad = pushpad;
@@ -59,6 +60,13 @@ public class Notification {
     }
     if (this.ttl != null) {
       notificationData.put("ttl", this.ttl);
+    }
+    if (actionButtons != null) {
+      JSONArray jsonActionButtons = new JSONArray();
+      for (ActionButton actionButton : actionButtons) {
+        jsonActionButtons.add(actionButton.toJson());
+      }
+      notificationData.put("actions", jsonActionButtons);
     }
     body.put("notification", notificationData);
     if (uids != null) {

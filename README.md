@@ -74,6 +74,13 @@ Notification notification = pushpad.buildNotification("Title", "Message", "http:
 notification.iconUrl = "http://example.com/assets/icon.png";
 // optional, drop the notification after this number of seconds if a device is offline 
 notification.ttl = 604800;
+// optional, add some action buttons to the notification
+// see https://pushpad.xyz/docs/action_buttons
+ActionButton button1 = new ActionButton("My Button 1"); // Title (max length is 20 characters)
+button1.targetUrl = "http://example.com/button-link"; // optional
+button1.icon = "http://example.com/assets/button-icon.png"; // optional
+button1.action = "myActionName"; // optional
+notification.actionButtons = new ActionButton[]{button1};
 
 try {
   // deliver the notification to a user
