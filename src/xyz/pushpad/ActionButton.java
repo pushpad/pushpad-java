@@ -16,17 +16,6 @@ import org.json.simple.JSONObject;
  */
 public class ActionButton {
 
-  /**
-   * Creates a new ActionButtonBuilder.
-   *
-   * @param title
-   *          the title of the ActionButton
-   * @return the ActionButtonBuilder
-   */
-  public static ActionButtonBuilder newBuilder(String title) {
-    return new ActionButtonBuilder(title);
-  }
-
   /** The title. */
   private final String title;
 
@@ -57,11 +46,12 @@ public class ActionButton {
   /**
    * Sets the target url.
    *
-   * @param targetUrl
-   *          the new target url
+   * @param targetUrl          the new target url
+   * @return a reference to this object.
    */
-  public void setTargetUrl(String targetUrl) {
+  public ActionButton setTargetUrl(String targetUrl) {
     this.targetUrl = targetUrl;
+    return this;
   }
 
   /**
@@ -69,9 +59,11 @@ public class ActionButton {
    *
    * @param icon
    *          the new icon url
+   * @return a reference to this object.
    */
-  public void setIcon(String icon) {
+  public ActionButton setIcon(String icon) {
     this.icon = icon;
+    return this;
   }
 
   /**
@@ -79,14 +71,16 @@ public class ActionButton {
    *
    * @param action
    *          the new action
+   * @return a reference to this object.
    * @throws IllegalArgumentException
    *           if the new action exceeds the maximum length of 50 characters
    */
-  public void setAction(String action) throws IllegalArgumentException {
+  public ActionButton setAction(String action) throws IllegalArgumentException {
     if (action.length() > 50) {
       throw new IllegalArgumentException("Maximum length of the action is 50 characters");
     }
     this.action = action;
+    return this;
   }
 
   /**
@@ -102,69 +96,5 @@ public class ActionButton {
     result.put("icon", icon);
     result.put("action", action);
     return result;
-  }
-
-  /**
-   * ActionButtonBuilders can be used to chain the setter methods of an ActionButton.
-   */
-  public static class ActionButtonBuilder {
-
-    /** The underlying action button. */
-    private ActionButton actionButton;
-
-    /**
-     * Instantiates a new ActionButtonBuilder.
-     *
-     * @param title
-     *          the title of the ActionButton
-     */
-    private ActionButtonBuilder(String title) {
-      actionButton = new ActionButton(title);
-    }
-
-    /**
-     * Sets the target url.
-     *
-     * @param targetUrl
-     *          the new target url
-     * @return the ActionButtonBuilder
-     */
-    public ActionButtonBuilder setTargetUrl(String targetUrl) {
-      actionButton.setTargetUrl(targetUrl);
-      return this;
-    }
-
-    /**
-     * Sets the icon url.
-     *
-     * @param icon
-     *          the new icon url
-     * @return the ActionButtonBuilder
-     */
-    public ActionButtonBuilder setIcon(String icon) {
-      actionButton.setIcon(icon);
-      return this;
-    }
-
-    /**
-     * Sets the action.
-     *
-     * @param action
-     *          the new action
-     * @return the ActionButtonBuilder
-     */
-    public ActionButtonBuilder setAction(String action) {
-      actionButton.setAction(action);
-      return this;
-    }
-
-    /**
-     * Returns the underlying Actionbutton.
-     *
-     * @return the ActionButton
-     */
-    public ActionButton build() {
-      return actionButton;
-    }
   }
 }
