@@ -17,12 +17,11 @@ public class Notification {
   public Integer ttl;
   public ActionButton[] actionButtons;
 
-  public Notification(Pushpad pushpad, String title, String body, String targetUrl, ActionButton... actionButtons) {
+  public Notification(Pushpad pushpad, String title, String body, String targetUrl) {
     this.pushpad = pushpad;
     this.title = title;
     this.body = body;
     this.targetUrl = targetUrl;
-    this.actionButtons = actionButtons;
   }
 
   public JSONObject broadcast() throws DeliveryException{

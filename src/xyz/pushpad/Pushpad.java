@@ -40,7 +40,7 @@ public class Pushpad {
     return this.path() + "?uid=" + uid + "&uid_signature=" + uidSignature;
   }
 
-  public Notification buildNotification(String title, String body, String targetUrl, ActionButton... actionButtons) {
-    return new Notification(this, title, body, targetUrl, actionButtons);
+  public Notification buildNotification(String title, String body, String targetUrl) {
+    return new Notification(this, title, body, targetUrl);
   }
 }
