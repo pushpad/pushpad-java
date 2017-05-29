@@ -68,12 +68,19 @@ When a user clicks the link is sent to Pushpad, asked to receive push notificati
 ## Sending push notifications
 
 ```java
-Notification notification = pushpad.buildNotification("Title", "Message", "http://example.com");
+//  Title and Message have a max length of 30 and 120 characters, respectively
+Notification notification = pushpad.buildNotification("Title", "Message", "http://example.com/my/page");
 
 // optional, defaults to the project icon
-notification.iconUrl = "http://example.com/assets/icon.png";
+notification.iconUrl = "http://example.com/assets/square-icon.png";
+// optional, an image to display in the notification content
+notification.imageUrl = "http://example.com/assets/image.png";
 // optional, drop the notification after this number of seconds if a device is offline 
 notification.ttl = 604800;
+// optional, prevent Chrome on desktop from automatically closing the notification after a few seconds
+notification.requireInteraction = true;
+// optional, a string that is passed as an argument to action button callbacks
+notification.customData = "123";
 // optional, add some action buttons to the notification
 // see https://pushpad.xyz/docs/action_buttons
 ActionButton button1 = new ActionButton("My Button 1"); // Title (max length is 20 characters)
@@ -81,6 +88,8 @@ button1.targetUrl = "http://example.com/button-link"; // optional
 button1.icon = "http://example.com/assets/button-icon.png"; // optional
 button1.action = "myActionName"; // optional
 notification.actionButtons = new ActionButton[]{button1};
+// optional, bookmark the notification in the Pushpad dashboard (e.g. to highlight manual notifications)
+notification.starred = true;
 
 try {
   // deliver the notification to a user
@@ -114,7 +123,7 @@ try {
 }
 ```
 
-The notification title and body have a max length of 30 and 120 characters, respectively.
+You can set the default values for most fields in the project settings. See also [the docs](https://pushpad.xyz/docs/rest_api#notifications_api_docs) for more information about notification fields.
 
 If no user with that id has subscribed to push notifications, that id is simply ignored.
 

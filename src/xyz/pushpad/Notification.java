@@ -14,8 +14,12 @@ public class Notification {
   public String title;
   public String targetUrl;
   public String iconUrl;
+  public String imageUrl;
   public Integer ttl;
+  public Boolean requireInteraction;
+  public String customData;
   public ActionButton[] actionButtons;
+  public Boolean starred;
 
   public Notification(Pushpad pushpad, String title, String body, String targetUrl) {
     this.pushpad = pushpad;
@@ -58,8 +62,17 @@ public class Notification {
     if (this.iconUrl != null) {
       notificationData.put("icon_url", this.iconUrl);
     }
+    if (this.imageUrl != null) {
+      notificationData.put("image_url", this.imageUrl);
+    }
     if (this.ttl != null) {
       notificationData.put("ttl", this.ttl);
+    }
+    if (this.requireInteraction != null) {
+      notificationData.put("require_interaction", this.requireInteraction);
+    }
+    if (this.customData != null) {
+      notificationData.put("custom_data", this.customData);
     }
     if (actionButtons != null) {
       JSONArray jsonActionButtons = new JSONArray();
@@ -67,6 +80,9 @@ public class Notification {
         jsonActionButtons.add(actionButton.toJson());
       }
       notificationData.put("actions", jsonActionButtons);
+    }
+    if (this.starred != null) {
+      notificationData.put("starred", this.starred);
     }
     body.put("notification", notificationData);
     if (uids != null) {
