@@ -125,7 +125,7 @@ try {
 
 You can set the default values for most fields in the project settings. See also [the docs](https://pushpad.xyz/docs/rest_api#notifications_api_docs) for more information about notification fields.
 
-If no user with that id has subscribed to push notifications, that id is simply ignored.
+If you try to send a notification to a user ID, but that user is not subscribed, that ID is simply ignored.
 
 The methods above return a JSONObject: 
 
