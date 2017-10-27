@@ -90,6 +90,10 @@ button1.action = "myActionName"; // optional
 notification.actionButtons = new ActionButton[]{button1};
 // optional, bookmark the notification in the Pushpad dashboard (e.g. to highlight manual notifications)
 notification.starred = true;
+// optional, use this option only if you need to create scheduled notifications (max 5 days)
+// see https://pushpad.xyz/docs/schedule_notifications
+Instant tomorrow = Instant.now().plusSeconds(60*60*24);
+notification.sendAt = tomorrow;
 
 try {
   // deliver the notification to a user
@@ -132,6 +136,7 @@ The methods above return a JSONObject:
 - `res.get("id")` is the id of the notification on Pushpad
 - `res.get("scheduled")` is the estimated reach of the notification (i.e. the number of devices to which the notification will be sent, which can be different from the number of users, since a user may receive notifications on multiple devices)
 - `res.get("uids")` (`deliverTo` only) are the user IDs that will be actually reached by the notification because they are subscribed to your notifications. For example if you send a notification to `{"uid1", "uid2", "uid3"}`, but only `"uid1"` is subscribed, you will get `{"uid1"}` in response. Note that if a user has unsubscribed after the last notification sent to him, he may still be reported for one time as subscribed (this is due to the way the W3C Push API works).
+- `res.get("send_at")` is present only for scheduled notifications. The fields `scheduled` and `uids` are not available in this case.
 
 ## License
 

@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
+import java.time.Instant;
 
 public class Notification {
   public Pushpad pushpad;
@@ -20,6 +21,7 @@ public class Notification {
   public String customData;
   public ActionButton[] actionButtons;
   public Boolean starred;
+  public Instant sendAt;
 
   public Notification(Pushpad pushpad, String title, String body, String targetUrl) {
     this.pushpad = pushpad;
@@ -83,6 +85,9 @@ public class Notification {
     }
     if (this.starred != null) {
       notificationData.put("starred", this.starred);
+    }
+    if (this.sendAt != null) {
+      notificationData.put("send_at", this.sendAt.toString());
     }
     body.put("notification", notificationData);
     if (uids != null) {
