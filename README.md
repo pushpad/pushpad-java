@@ -94,6 +94,9 @@ notification.starred = true;
 // see https://pushpad.xyz/docs/schedule_notifications
 Instant tomorrow = Instant.now().plusSeconds(60*60*24);
 notification.sendAt = tomorrow;
+// optional, add the notification to custom categories for stats aggregation
+// see https://pushpad.xyz/docs/monitoring
+notification.customMetrics = new String[]{"examples", "another_metric"}; // up to 3 metrics per notification
 
 try {
   // deliver the notification to a user

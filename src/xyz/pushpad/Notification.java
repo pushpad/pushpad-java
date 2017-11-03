@@ -19,6 +19,7 @@ public class Notification {
   public Integer ttl;
   public Boolean requireInteraction;
   public String customData;
+  public String[] customMetrics;
   public ActionButton[] actionButtons;
   public Boolean starred;
   public Instant sendAt;
@@ -75,6 +76,13 @@ public class Notification {
     }
     if (this.customData != null) {
       notificationData.put("custom_data", this.customData);
+    }
+    if (this.customMetrics != null) {
+      JSONArray jsonCustomMetrics = new JSONArray();
+      for (String customMetric : customMetrics) {
+        jsonCustomMetrics.add(customMetric);
+      }
+      notificationData.put("custom_metrics", jsonCustomMetrics);
     }
     if (actionButtons != null) {
       JSONArray jsonActionButtons = new JSONArray();
