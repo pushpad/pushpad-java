@@ -33,30 +33,13 @@ Pushpad pushpad = new Pushpad(authToken, projectId);
 
 ## Collecting user subscriptions to push notifications
 
-Pushpad offers two different products. [Learn more](https://pushpad.xyz/docs)
-
-### Pushpad Pro
-
-Choose Pushpad Pro if you want to use Javascript for a seamless integration. [Read the docs](https://pushpad.xyz/docs/pushpad_pro_getting_started)
+You can subscribe the users to your notifications using the Javascript SDK, as described in the [getting started guide](https://pushpad.xyz/docs/pushpad_pro_getting_started).
 
 If you need to generate the HMAC signature for the `uid` you can use this helper:
 
 ```java
 pushpad.signatureFor(currentUserId);
 ```
-
-### Pushpad Express
-
-Let users subscribe to your push notifications with a link that you can generate with: 
-
-```java
-pushpad.path()
-
-// If the user is logged in on your website you should track its user id to target him in the future
-pushpad.pathFor(currentUserId)
-```
-
-When a user clicks the link is sent to Pushpad, asked to receive push notifications and redirected back to your website.
 
 ## Sending push notifications
 

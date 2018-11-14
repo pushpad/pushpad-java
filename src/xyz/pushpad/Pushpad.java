@@ -31,15 +31,6 @@ public class Pushpad {
     return encoded;
   }
 
-  public String path() {
-    return "https://pushpad.xyz/projects/" + this.projectId + "/subscription/edit";
-  }
-
-  public String pathFor(String uid) {
-    String uidSignature = this.signatureFor(uid);
-    return this.path() + "?uid=" + uid + "&uid_signature=" + uidSignature;
-  }
-
   public Notification buildNotification(String title, String body, String targetUrl) {
     return new Notification(this, title, body, targetUrl);
   }
