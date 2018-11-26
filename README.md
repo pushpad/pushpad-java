@@ -55,6 +55,8 @@ notification.imageUrl = "http://example.com/assets/image.png";
 notification.ttl = 604800;
 // optional, prevent Chrome on desktop from automatically closing the notification after a few seconds
 notification.requireInteraction = true;
+// optional, enable this option only for time-sensitive alerts (e.g. incoming phone call)
+notification.urgent = false;
 // optional, a string that is passed as an argument to action button callbacks
 notification.customData = "123";
 // optional, add some action buttons to the notification
