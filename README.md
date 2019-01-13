@@ -44,7 +44,6 @@ pushpad.signatureFor(currentUserId);
 ## Sending push notifications
 
 ```java
-//  Title and Message have a max length of 30 and 120 characters, respectively
 Notification notification = pushpad.buildNotification("Title", "Message", "http://example.com/my/page");
 
 // optional, defaults to the project icon
@@ -61,7 +60,7 @@ notification.urgent = false;
 notification.customData = "123";
 // optional, add some action buttons to the notification
 // see https://pushpad.xyz/docs/action_buttons
-ActionButton button1 = new ActionButton("My Button 1"); // Title (max length is 20 characters)
+ActionButton button1 = new ActionButton("My Button 1"); // Title
 button1.targetUrl = "http://example.com/button-link"; // optional
 button1.icon = "http://example.com/assets/button-icon.png"; // optional
 button1.action = "myActionName"; // optional
