@@ -120,7 +120,7 @@ public class Notification {
   }
 
   private JSONObject deliver(String reqBody) throws DeliveryException {
-    String endpoint = "https://pushpad.xyz/projects/" + pushpad.projectId + "/notifications";
+    String endpoint = "https://pushpad.xyz/api/v1/projects/" + pushpad.projectId + "/notifications";
     HttpsURLConnection connection = null;
     int code;
     String responseBody;
