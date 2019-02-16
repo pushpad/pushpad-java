@@ -44,12 +44,12 @@ pushpad.signatureFor(currentUserId);
 ## Sending push notifications
 
 ```java
-Notification notification = pushpad.buildNotification("Title", "Message", "http://example.com/my/page");
+Notification notification = pushpad.buildNotification("Title", "Message", "https://example.com/my/page");
 
 // optional, defaults to the project icon
-notification.iconUrl = "http://example.com/assets/square-icon.png";
+notification.iconUrl = "https://example.com/assets/square-icon.png";
 // optional, an image to display in the notification content
-notification.imageUrl = "http://example.com/assets/image.png";
+notification.imageUrl = "https://example.com/assets/image.png";
 // optional, drop the notification after this number of seconds if a device is offline 
 notification.ttl = 604800;
 // optional, prevent Chrome on desktop from automatically closing the notification after a few seconds
@@ -61,8 +61,8 @@ notification.customData = "123";
 // optional, add some action buttons to the notification
 // see https://pushpad.xyz/docs/action_buttons
 ActionButton button1 = new ActionButton("My Button 1"); // Title
-button1.targetUrl = "http://example.com/button-link"; // optional
-button1.icon = "http://example.com/assets/button-icon.png"; // optional
+button1.targetUrl = "https://example.com/button-link"; // optional
+button1.icon = "https://example.com/assets/button-icon.png"; // optional
 button1.action = "myActionName"; // optional
 notification.actionButtons = new ActionButton[]{button1};
 // optional, bookmark the notification in the Pushpad dashboard (e.g. to highlight manual notifications)
