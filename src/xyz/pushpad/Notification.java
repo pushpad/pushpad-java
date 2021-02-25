@@ -18,6 +18,7 @@ public class Notification {
   public String imageUrl;
   public Integer ttl;
   public Boolean requireInteraction;
+  public Boolean silent;
   public Boolean urgent;
   public String customData;
   public String[] customMetrics;
@@ -74,6 +75,9 @@ public class Notification {
     }
     if (this.requireInteraction != null) {
       notificationData.put("require_interaction", this.requireInteraction);
+    }
+    if (this.silent != null) {
+      notificationData.put("silent", this.silent);
     }
     if (this.urgent != null) {
       notificationData.put("urgent", this.urgent);
