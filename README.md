@@ -48,6 +48,8 @@ Notification notification = pushpad.buildNotification("Title", "Message", "https
 
 // optional, defaults to the project icon
 notification.iconUrl = "https://example.com/assets/square-icon.png";
+// optional, defaults to the project badge
+notification.badgeUrl = "https://example.com/assets/badge.png";
 // optional, an image to display in the notification content
 notification.imageUrl = "https://example.com/assets/image.png";
 // optional, drop the notification after this number of seconds if a device is offline 

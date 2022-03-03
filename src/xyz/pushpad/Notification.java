@@ -15,6 +15,7 @@ public class Notification {
   public String title;
   public String targetUrl;
   public String iconUrl;
+  public String badgeUrl;
   public String imageUrl;
   public Integer ttl;
   public Boolean requireInteraction;
@@ -66,6 +67,9 @@ public class Notification {
     notificationData.put("target_url", this.targetUrl);
     if (this.iconUrl != null) {
       notificationData.put("icon_url", this.iconUrl);
+    }
+    if (this.badgeUrl != null) {
+      notificationData.put("badge_url", this.badgeUrl);
     }
     if (this.imageUrl != null) {
       notificationData.put("image_url", this.imageUrl);
