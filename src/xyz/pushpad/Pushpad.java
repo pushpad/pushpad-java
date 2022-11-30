@@ -17,10 +17,10 @@ public class Pushpad {
   }
 
   public String signatureFor(String data) {
-    SecretKeySpec signingKey = new SecretKeySpec(this.authToken.getBytes(), "HmacSHA1");
+    SecretKeySpec signingKey = new SecretKeySpec(this.authToken.getBytes(), "HmacSHA256");
     String encoded = null;
     try {
-      Mac mac = Mac.getInstance("HmacSHA1");
+      Mac mac = Mac.getInstance("HmacSHA256");
       mac.init(signingKey);
       byte[] rawHmac = mac.doFinal(data.getBytes());
       encoded = DatatypeConverter.printHexBinary(rawHmac).toLowerCase();
