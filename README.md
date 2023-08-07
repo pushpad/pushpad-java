@@ -40,37 +40,50 @@ pushpad.signatureFor(currentUserId);
 ## Sending push notifications
 
 ```java
+// build a new notification with title, main content and link
 Notification notification = pushpad.buildNotification("Title", "Message", "https://example.com/my/page");
 
-// optional, defaults to the project icon
+// optional, the icon of the notification (defaults to the project icon)
 notification.iconUrl = "https://example.com/assets/square-icon.png";
-// optional, defaults to the project badge
+
+// optional, the small icon displayed in the status bar (defaults to the project badge)
 notification.badgeUrl = "https://example.com/assets/badge.png";
+
 // optional, an image to display in the notification content
+// see https://pushpad.xyz/docs/sending_images
 notification.imageUrl = "https://example.com/assets/image.png";
+
 // optional, drop the notification after this number of seconds if a device is offline 
 notification.ttl = 604800;
+
 // optional, prevent Chrome on desktop from automatically closing the notification after a few seconds
 notification.requireInteraction = true;
+
 // optional, enable this option if you want a mute notification without any sound
 notification.silent = false;
+
 // optional, enable this option only for time-sensitive alerts (e.g. incoming phone call)
 notification.urgent = false;
+
 // optional, a string that is passed as an argument to action button callbacks
 notification.customData = "123";
+
 // optional, add some action buttons to the notification
 // see https://pushpad.xyz/docs/action_buttons
-ActionButton button1 = new ActionButton("My Button 1"); // Title
+ActionButton button1 = new ActionButton("My Button 1"); // title
 button1.targetUrl = "https://example.com/button-link"; // optional
 button1.icon = "https://example.com/assets/button-icon.png"; // optional
 button1.action = "myActionName"; // optional
 notification.actionButtons = new ActionButton[]{button1};
+
 // optional, bookmark the notification in the Pushpad dashboard (e.g. to highlight manual notifications)
 notification.starred = true;
+
 // optional, use this option only if you need to create scheduled notifications (max 5 days)
 // see https://pushpad.xyz/docs/schedule_notifications
 Instant tomorrow = Instant.now().plusSeconds(60*60*24);
 notification.sendAt = tomorrow;
+
 // optional, add the notification to custom categories for stats aggregation
 // see https://pushpad.xyz/docs/monitoring
 notification.customMetrics = new String[]{"examples", "another_metric"}; // up to 3 metrics per notification
