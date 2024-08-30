@@ -106,8 +106,9 @@ try {
   String[] tags2 = {"segment1", "segment2"};
   notification.broadcast(tags2);
   
-  // you can use boolean expressions 
-  // they must be in the disjunctive normal form (without parenthesis)
+  // you can use boolean expressions
+  // they can include parentheses and the operators !, &&, || (from highest to lowest precedence)
+  // https://pushpad.xyz/docs/tags
   String[] tags3 = {"zip_code:28865 && !optout:local_events || friend_of:Organizer123"};
   notification.broadcast(tags3);
   String[] tags4 = {"tag1 && tag2", "tag3"}; // equal to "tag1 && tag2 || tag3"
