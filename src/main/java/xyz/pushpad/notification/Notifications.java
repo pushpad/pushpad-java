@@ -49,7 +49,7 @@ public final class Notifications {
     return create(params);
   }
 
-  public static Notification get(long notificationId, NotificationGetParams params) throws PushpadException {
+  public static Notification get(long notificationId) throws PushpadException {
     if (notificationId <= 0) {
       throw new PushpadException("pushpad: notification ID is required");
     }
@@ -64,7 +64,7 @@ public final class Notifications {
     );
   }
 
-  public static void cancel(long notificationId, NotificationCancelParams params) throws PushpadException {
+  public static void cancel(long notificationId) throws PushpadException {
     if (notificationId <= 0) {
       throw new PushpadException("pushpad: notification ID is required");
     }

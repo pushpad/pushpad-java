@@ -9,7 +9,7 @@ public final class Senders {
   private Senders() {
   }
 
-  public static List<Sender> list(SenderListParams params) throws PushpadException {
+  public static List<Sender> list() throws PushpadException {
     return Pushpad.request(
         "GET",
         "/senders",
@@ -35,7 +35,7 @@ public final class Senders {
     );
   }
 
-  public static Sender get(long senderId, SenderGetParams params) throws PushpadException {
+  public static Sender get(long senderId) throws PushpadException {
     if (senderId <= 0) {
       throw new PushpadException("pushpad: sender ID is required");
     }
@@ -68,7 +68,7 @@ public final class Senders {
     );
   }
 
-  public static void delete(long senderId, SenderDeleteParams params) throws PushpadException {
+  public static void delete(long senderId) throws PushpadException {
     if (senderId <= 0) {
       throw new PushpadException("pushpad: sender ID is required");
     }

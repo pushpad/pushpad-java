@@ -24,7 +24,7 @@ class ProjectsTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      List<Project> projects = Projects.list(null);
+      List<Project> projects = Projects.list();
 
       assertEquals(1, projects.size());
       assertEquals(1L, projects.get(0).getId());
@@ -86,7 +86,7 @@ class ProjectsTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      Project project = Projects.get(2L, null);
+      Project project = Projects.get(2L);
 
       assertEquals(2L, project.getId());
       assertEquals("New Project", project.getName());
@@ -135,7 +135,7 @@ class ProjectsTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      Projects.delete(2L, null);
+      Projects.delete(2L);
 
       RecordedRequest request = server.takeRequest();
       assertEquals("DELETE", request.method);

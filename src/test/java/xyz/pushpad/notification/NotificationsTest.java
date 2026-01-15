@@ -99,7 +99,7 @@ class NotificationsTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      Notification notification = Notifications.get(9876L, null);
+      Notification notification = Notifications.get(9876L);
 
       assertEquals(9876L, notification.getId());
       assertEquals("Hello", notification.getBody());
@@ -118,7 +118,7 @@ class NotificationsTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      Notifications.cancel(5555L, null);
+      Notifications.cancel(5555L);
 
       RecordedRequest request = server.takeRequest();
       assertEquals("DELETE", request.method);

@@ -24,7 +24,7 @@ class SendersTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      List<Sender> senders = Senders.list(null);
+      List<Sender> senders = Senders.list();
 
       assertEquals(1, senders.size());
       assertEquals(1L, senders.get(0).getId());
@@ -77,7 +77,7 @@ class SendersTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      Sender sender = Senders.get(5L, null);
+      Sender sender = Senders.get(5L);
 
       assertEquals(5L, sender.getId());
       assertEquals("New Sender", sender.getName());
@@ -121,7 +121,7 @@ class SendersTest {
       Pushpad.setBaseUrl(server.baseUrl());
       Pushpad.setAuthToken("TOKEN");
 
-      Senders.delete(5L, null);
+      Senders.delete(5L);
 
       RecordedRequest request = server.takeRequest();
       assertEquals("DELETE", request.method);

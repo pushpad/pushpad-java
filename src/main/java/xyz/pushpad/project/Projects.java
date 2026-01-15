@@ -9,7 +9,7 @@ public final class Projects {
   private Projects() {
   }
 
-  public static List<Project> list(ProjectListParams params) throws PushpadException {
+  public static List<Project> list() throws PushpadException {
     return Pushpad.request(
         "GET",
         "/projects",
@@ -35,7 +35,7 @@ public final class Projects {
     );
   }
 
-  public static Project get(long projectId, ProjectGetParams params) throws PushpadException {
+  public static Project get(long projectId) throws PushpadException {
     if (projectId <= 0) {
       throw new PushpadException("pushpad: project ID is required");
     }
@@ -68,7 +68,7 @@ public final class Projects {
     );
   }
 
-  public static void delete(long projectId, ProjectDeleteParams params) throws PushpadException {
+  public static void delete(long projectId) throws PushpadException {
     if (projectId <= 0) {
       throw new PushpadException("pushpad: project ID is required");
     }

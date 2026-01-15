@@ -212,7 +212,7 @@ System.out.println(response.getSendAt()); // => 2025-10-30T10:09Z
 You can retrieve data for past notifications:
 
 ```java
-Notification notification = Notifications.get(42, null);
+Notification notification = Notifications.get(42);
 
 // get basic attributes
 System.out.println(notification.getId()); // => 42
@@ -266,7 +266,7 @@ NotificationCreateResponse scheduled = Notifications.create(new NotificationCrea
 You can also cancel a scheduled notification:
 
 ```java
-Notifications.cancel(scheduled.getId(), null);
+Notifications.cancel(scheduled.getId());
 ```
 
 ## Getting subscription count
@@ -399,17 +399,17 @@ Project createdProject = Projects.create(new ProjectCreateParams()
 You can also find, update and delete projects:
 
 ```java
-List<Project> projects = Projects.list(null);
+List<Project> projects = Projects.list();
 for (Project project : projects) {
   System.out.printf("Project %d: %s%n", project.getId(), project.getName());
 }
 
-Project existingProject = Projects.get(123, null);
+Project existingProject = Projects.get(123);
 
 Project updatedProject = Projects.update(existingProject.getId(), new ProjectUpdateParams()
     .setName("The New Project Name"));
 
-Projects.delete(existingProject.getId(), null);
+Projects.delete(existingProject.getId());
 ```
 
 ## Managing senders
@@ -430,17 +430,17 @@ Sender createdSender = Senders.create(new SenderCreateParams()
 You can also find, update and delete senders:
 
 ```java
-List<Sender> senders = Senders.list(null);
+List<Sender> senders = Senders.list();
 for (Sender sender : senders) {
   System.out.printf("Sender %d: %s%n", sender.getId(), sender.getName());
 }
 
-Sender existingSender = Senders.get(987, null);
+Sender existingSender = Senders.get(987);
 
 Sender updatedSender = Senders.update(existingSender.getId(), new SenderUpdateParams()
     .setName("The New Sender Name"));
 
-Senders.delete(existingSender.getId(), null);
+Senders.delete(existingSender.getId());
 ```
 
 ## Error handling
