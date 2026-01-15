@@ -326,7 +326,7 @@ List<Subscription> subscriptions = Subscriptions.list(new SubscriptionListParams
 You can also retrieve the data of a specific subscription if you already know its id:
 
 ```java
-Subscriptions.get(123, null);
+Subscriptions.get(123);
 ```
 
 ## Updating push subscription data
@@ -374,7 +374,7 @@ Usually you unsubscribe a user from push notifications using the [JavaScript SDK
 However you can also delete the subscriptions using this library. Be careful, the subscriptions are permanently deleted!
 
 ```java
-Subscriptions.delete(id, null);
+Subscriptions.delete(id);
 ```
 
 ## Managing projects

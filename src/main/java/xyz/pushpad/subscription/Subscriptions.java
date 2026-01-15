@@ -87,6 +87,10 @@ public final class Subscriptions {
     );
   }
 
+  public static Subscription get(long subscriptionId) throws PushpadException {
+    return get(subscriptionId, null);
+  }
+
   public static Subscription get(long subscriptionId, SubscriptionGetParams params) throws PushpadException {
     if (subscriptionId <= 0) {
       throw new PushpadException("pushpad: subscription ID is required");
@@ -121,6 +125,10 @@ public final class Subscriptions {
         new int[]{200},
         Subscription.class
     );
+  }
+
+  public static void delete(long subscriptionId) throws PushpadException {
+    delete(subscriptionId, null);
   }
 
   public static void delete(long subscriptionId, SubscriptionDeleteParams params) throws PushpadException {
