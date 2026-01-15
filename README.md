@@ -39,7 +39,8 @@ First you need to sign up to Pushpad and create a project there.
 Then set your authentication credentials and project:
 
 ```java
-Pushpad.configure("AUTH_TOKEN", 123);
+Pushpad.setAuthToken("AUTH_TOKEN");
+Pushpad.setProjectId(123L);
 ```
 
 - `AUTH_TOKEN` can be found in the user account settings.

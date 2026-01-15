@@ -30,11 +30,6 @@ public final class Pushpad {
   private Pushpad() {
   }
 
-  public static void configure(String authToken, Long projectId) {
-    setAuthToken(authToken);
-    setProjectId(projectId);
-  }
-
   public static void setAuthToken(String authToken) {
     Pushpad.authToken = authToken;
   }
