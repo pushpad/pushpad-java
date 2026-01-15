@@ -39,14 +39,19 @@ First you need to sign up to Pushpad and create a project there.
 Then create a client with your authentication credentials and project:
 
 ```java
-Pushpad pushpad = new Pushpad("AUTH_TOKEN", 123L);
+String authToken = "token";
+Long projectId = 123L;
+
+Pushpad pushpad = new Pushpad(authToken, projectId);
 ```
 
-- `AUTH_TOKEN` can be found in the user account settings.
-- `PROJECT_ID` can be found in the project settings. If your application uses multiple projects, you can pass the `projectId` as a param to functions or keep one client per project.
+- `authToken` can be found in the user account settings.
+- `projectId` can be found in the project settings.
+
+If your application uses multiple projects, you can create one client per project or you can pass the `projectId` as a param to methods:
 
 ```java
-Pushpad pushpad = new Pushpad("AUTH_TOKEN");
+Pushpad pushpad = new Pushpad("token");
 
 NotificationCreateResponse res1 = pushpad.notifications().create(new NotificationCreateParams()
     .setProjectId(123L)
