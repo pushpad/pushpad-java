@@ -24,7 +24,7 @@ class SubscriptionsTest {
           .setPage(1L)
           .setPerPage(20L)
           .setUids(List.of("u1", "u2"))
-          .setTags(List.of("tag1"));
+          .setTags(List.of("tag1 && tag2"));
       List<Subscription> subscriptions = pushpad.subscriptions().list(params);
 
       assertEquals(1, subscriptions.size());
@@ -33,14 +33,7 @@ class SubscriptionsTest {
       RecordedRequest request = server.takeRequest();
       assertEquals("GET", request.method);
       assertEquals("/api/v1/projects/123/subscriptions", request.path);
-      Map<String, List<String>> query = TestSupport.parseQuery(request.query);
-
-      Map<String, List<String>> expected = new LinkedHashMap<>();
-      expected.put("page", List.of("1"));
-      expected.put("per_page", List.of("20"));
-      expected.put("uids[]", List.of("u1", "u2"));
-      expected.put("tags[]", List.of("tag1"));
-      assertEquals(expected, query);
+      assertEquals("page=1&per_page=20&uids[]=u1&uids[]=u2&tags[]=tag1+&&+tag2", request.query);
 
       TestSupport.assertHeaderEquals(request, "Authorization", "Bearer TOKEN");
       TestSupport.assertHeaderEquals(request, "Accept", "application/json");
