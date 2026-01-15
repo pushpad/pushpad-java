@@ -29,6 +29,10 @@ Then import the classes:
 
 ```java
 import xyz.pushpad.Pushpad;
+
+import xyz.pushpad.PushpadException;
+import xyz.pushpad.ApiException;
+
 import xyz.pushpad.notification.*;
 import xyz.pushpad.project.*;
 import xyz.pushpad.sender.*;
@@ -102,7 +106,7 @@ NotificationCreateParams n = new NotificationCreateParams()
     .setImageUrl("https://example.com/assets/image.png")
 
     // optional, drop the notification after this number of seconds if a device is offline
-    .setTtl(604800)
+    .setTtl(604800L)
 
     // optional, prevent Chrome on desktop from automatically closing the notification after a few seconds
     .setRequireInteraction(true)
