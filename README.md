@@ -207,9 +207,6 @@ System.out.println(response.getUids()); // => ["user1", "user2"]
 // The time when the notification will be sent.
 // Available for notifications that use SendAt
 System.out.println(response.getSendAt()); // => 2025-10-30T10:09Z
-
-// Note:
-// when a field is not available in the response, it is set to its zero value
 ```
 
 ## Getting push notification data
