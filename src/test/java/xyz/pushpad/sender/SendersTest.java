@@ -1,7 +1,6 @@
 package xyz.pushpad.sender;
 
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import xyz.pushpad.Pushpad;
 import xyz.pushpad.TestSupport;
@@ -12,19 +11,13 @@ import xyz.pushpad.TestSupport.RecordedRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SendersTest {
-  @AfterEach
-  void tearDown() {
-    TestSupport.resetPushpad();
-  }
-
   @Test
   void listSenders() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "[{\"id\":1,\"name\":\"Sender\"}]"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      List<Sender> senders = Senders.list();
+      List<Sender> senders = pushpad.senders().list();
 
       assertEquals(1, senders.size());
       assertEquals(1L, senders.get(0).getId());
@@ -41,15 +34,14 @@ class SendersTest {
   void createSender() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(201, "{\"id\":12345,\"name\":\"My Sender\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       SenderCreateParams params = new SenderCreateParams()
           .setName("My Sender")
           .setVapidPrivateKey("-----BEGIN EC PRIVATE KEY----- ...")
           .setVapidPublicKey("-----BEGIN PUBLIC KEY----- ...");
 
-      Sender sender = Senders.create(params);
+      Sender sender = pushpad.senders().create(params);
 
       assertEquals(12345L, sender.getId());
       assertEquals("My Sender", sender.getName());
@@ -74,10 +66,9 @@ class SendersTest {
   void getSender() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "{\"id\":5,\"name\":\"New Sender\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      Sender sender = Senders.get(5L);
+      Sender sender = pushpad.senders().get(5L);
 
       assertEquals(5L, sender.getId());
       assertEquals("New Sender", sender.getName());
@@ -94,11 +85,10 @@ class SendersTest {
   void updateSender() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "{\"id\":5,\"name\":\"Updated Sender\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       SenderUpdateParams params = new SenderUpdateParams().setName("Updated Sender");
-      Sender sender = Senders.update(5L, params);
+      Sender sender = pushpad.senders().update(5L, params);
 
       assertEquals(5L, sender.getId());
       assertEquals("Updated Sender", sender.getName());
@@ -118,10 +108,9 @@ class SendersTest {
   @Test
   void deleteSender() throws Exception {
     try (MockServer server = TestSupport.startServer(new MockResponse(204, null))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      Senders.delete(5L);
+      pushpad.senders().delete(5L);
 
       RecordedRequest request = server.takeRequest();
       assertEquals("DELETE", request.method);

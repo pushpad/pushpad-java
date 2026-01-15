@@ -1,7 +1,6 @@
 package xyz.pushpad.project;
 
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import xyz.pushpad.Pushpad;
 import xyz.pushpad.TestSupport;
@@ -12,19 +11,13 @@ import xyz.pushpad.TestSupport.RecordedRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProjectsTest {
-  @AfterEach
-  void tearDown() {
-    TestSupport.resetPushpad();
-  }
-
   @Test
   void listProjects() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "[{\"id\":1,\"name\":\"Main\"}]"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      List<Project> projects = Projects.list();
+      List<Project> projects = pushpad.projects().list();
 
       assertEquals(1, projects.size());
       assertEquals(1L, projects.get(0).getId());
@@ -41,8 +34,7 @@ class ProjectsTest {
   void createProject() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(201, "{\"id\":12345,\"name\":\"My Project\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       ProjectCreateParams params = new ProjectCreateParams()
           .setSenderId(98765L)
@@ -54,7 +46,7 @@ class ProjectsTest {
           .setNotificationsRequireInteraction(false)
           .setNotificationsSilent(false);
 
-      Project project = Projects.create(params);
+      Project project = pushpad.projects().create(params);
 
       assertEquals(12345L, project.getId());
 
@@ -83,10 +75,9 @@ class ProjectsTest {
   void getProject() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "{\"id\":2,\"name\":\"New Project\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      Project project = Projects.get(2L);
+      Project project = pushpad.projects().get(2L);
 
       assertEquals(2L, project.getId());
       assertEquals("New Project", project.getName());
@@ -103,13 +94,12 @@ class ProjectsTest {
   void updateProject() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "{\"id\":2,\"name\":\"Updated Project\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       ProjectUpdateParams params = new ProjectUpdateParams()
           .setName("Updated Project")
           .setWebsite("https://example.com/updated");
-      Project project = Projects.update(2L, params);
+      Project project = pushpad.projects().update(2L, params);
 
       assertEquals(2L, project.getId());
       assertEquals("Updated Project", project.getName());
@@ -132,10 +122,9 @@ class ProjectsTest {
   @Test
   void deleteProject() throws Exception {
     try (MockServer server = TestSupport.startServer(new MockResponse(202, null))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      Projects.delete(2L);
+      pushpad.projects().delete(2L);
 
       RecordedRequest request = server.takeRequest();
       assertEquals("DELETE", request.method);

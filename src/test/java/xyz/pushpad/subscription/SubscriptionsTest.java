@@ -3,7 +3,6 @@ package xyz.pushpad.subscription;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import xyz.pushpad.Pushpad;
 import xyz.pushpad.TestSupport;
@@ -14,17 +13,11 @@ import xyz.pushpad.TestSupport.RecordedRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubscriptionsTest {
-  @AfterEach
-  void tearDown() {
-    TestSupport.resetPushpad();
-  }
-
   @Test
   void listSubscriptions() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "[{\"id\":10,\"endpoint\":\"https://example.com/1\"}]"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       SubscriptionListParams params = new SubscriptionListParams()
           .setProjectId(123L)
@@ -32,7 +25,7 @@ class SubscriptionsTest {
           .setPerPage(20L)
           .setUids(List.of("u1", "u2"))
           .setTags(List.of("tag1"));
-      List<Subscription> subscriptions = Subscriptions.list(params);
+      List<Subscription> subscriptions = pushpad.subscriptions().list(params);
 
       assertEquals(1, subscriptions.size());
       assertEquals(10L, subscriptions.get(0).getId());
@@ -58,8 +51,7 @@ class SubscriptionsTest {
   void createSubscription() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(201, "{\"id\":50,\"endpoint\":\"https://example.com/push/1\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       SubscriptionCreateParams params = new SubscriptionCreateParams()
           .setProjectId(123L)
@@ -69,7 +61,7 @@ class SubscriptionsTest {
           .setUid("user1")
           .setTags(List.of("tag1", "tag2"));
 
-      Subscription subscription = Subscriptions.create(params);
+      Subscription subscription = pushpad.subscriptions().create(params);
 
       assertEquals(50L, subscription.getId());
       assertEquals("https://example.com/push/1", subscription.getEndpoint());
@@ -96,11 +88,10 @@ class SubscriptionsTest {
   void getSubscription() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "{\"id\":50,\"endpoint\":\"https://example.com/1\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       SubscriptionGetParams params = new SubscriptionGetParams().setProjectId(123L);
-      Subscription subscription = Subscriptions.get(50L, params);
+      Subscription subscription = pushpad.subscriptions().get(50L, params);
 
       assertEquals(50L, subscription.getId());
       assertEquals("https://example.com/1", subscription.getEndpoint());
@@ -117,14 +108,13 @@ class SubscriptionsTest {
   void updateSubscription() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "{\"id\":50,\"uid\":\"user2\",\"tags\":[\"tag3\"]}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       SubscriptionUpdateParams params = new SubscriptionUpdateParams()
           .setProjectId(123L)
           .setUid("user2")
           .setTags(List.of("tag3"));
-      Subscription subscription = Subscriptions.update(50L, params);
+      Subscription subscription = pushpad.subscriptions().update(50L, params);
 
       assertEquals(50L, subscription.getId());
       assertEquals("user2", subscription.getUid());
@@ -145,10 +135,9 @@ class SubscriptionsTest {
   @Test
   void deleteSubscription() throws Exception {
     try (MockServer server = TestSupport.startServer(new MockResponse(204, null))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      Subscriptions.delete(50L, new SubscriptionDeleteParams().setProjectId(123L));
+      pushpad.subscriptions().delete(50L, new SubscriptionDeleteParams().setProjectId(123L));
 
       RecordedRequest request = server.takeRequest();
       assertEquals("DELETE", request.method);

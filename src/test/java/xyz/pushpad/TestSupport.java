@@ -27,12 +27,6 @@ public final class TestSupport {
   private TestSupport() {
   }
 
-  public static void resetPushpad() {
-    Pushpad.setAuthToken(null);
-    Pushpad.setProjectId(null);
-    Pushpad.setBaseUrl(Pushpad.DEFAULT_BASE_URL);
-  }
-
   public static MockServer startServer(MockResponse response) throws IOException {
     return new MockServer(response);
   }

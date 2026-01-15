@@ -17,49 +17,82 @@ import java.util.Arrays;
 import java.util.Objects;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import xyz.pushpad.notification.Notifications;
+import xyz.pushpad.project.Projects;
+import xyz.pushpad.sender.Senders;
+import xyz.pushpad.subscription.Subscriptions;
 
 public final class Pushpad {
   public static final String DEFAULT_BASE_URL = "https://pushpad.xyz/api/v1";
 
   private static final ObjectMapper MAPPER = createMapper();
-  private static volatile String authToken;
-  private static volatile Long projectId;
-  private static volatile String baseUrl = DEFAULT_BASE_URL;
-  private static volatile HttpClient httpClient = HttpClient.newHttpClient();
 
-  private Pushpad() {
+  private final String authToken;
+  private final Long projectId;
+  private final String baseUrl;
+  private final HttpClient httpClient;
+
+  private final Projects projects;
+  private final Senders senders;
+  private final Notifications notifications;
+  private final Subscriptions subscriptions;
+
+  public Pushpad(String authToken) {
+    this(authToken, null, DEFAULT_BASE_URL, null);
   }
 
-  public static void setAuthToken(String authToken) {
-    Pushpad.authToken = authToken;
+  public Pushpad(String authToken, Long projectId) {
+    this(authToken, projectId, DEFAULT_BASE_URL, null);
   }
 
-  public static void setProjectId(Long projectId) {
-    if (projectId == null || projectId <= 0) {
-      Pushpad.projectId = null;
-      return;
-    }
-    Pushpad.projectId = projectId;
+  public Pushpad(String authToken, Long projectId, String baseUrl) {
+    this(authToken, projectId, baseUrl, null);
   }
 
-
-  public static void setBaseUrl(String baseUrl) {
-    if (baseUrl == null || baseUrl.trim().isEmpty()) {
-      Pushpad.baseUrl = DEFAULT_BASE_URL;
-      return;
-    }
-    Pushpad.baseUrl = baseUrl;
+  public Pushpad(String authToken, Long projectId, String baseUrl, HttpClient httpClient) {
+    this.authToken = authToken;
+    this.projectId = normalizeProjectId(projectId);
+    this.baseUrl = normalizeBaseUrl(baseUrl);
+    this.httpClient = httpClient == null ? HttpClient.newHttpClient() : httpClient;
+    this.projects = new Projects(this);
+    this.senders = new Senders(this);
+    this.notifications = new Notifications(this);
+    this.subscriptions = new Subscriptions(this);
   }
 
-  public static String getAuthToken() {
+  public String getAuthToken() {
     return authToken;
   }
 
-  public static Long getProjectId() {
+  public Long getProjectId() {
     return projectId;
   }
 
-  public static String signatureFor(String uid) {
+  public String getBaseUrl() {
+    return baseUrl;
+  }
+
+  public HttpClient getHttpClient() {
+    return httpClient;
+  }
+
+  public Projects projects() {
+    return projects;
+  }
+
+  public Senders senders() {
+    return senders;
+  }
+
+  public Notifications notifications() {
+    return notifications;
+  }
+
+  public Subscriptions subscriptions() {
+    return subscriptions;
+  }
+
+  public String signatureFor(String uid) {
     String token = authToken == null ? "" : authToken;
     try {
       Mac mac = Mac.getInstance("HmacSHA256");
@@ -71,7 +104,7 @@ public final class Pushpad {
     }
   }
 
-  public static long resolveProjectId(Long provided) throws PushpadException {
+  public long resolveProjectId(Long provided) throws PushpadException {
     if (provided != null && provided > 0) {
       return provided;
     }
@@ -81,7 +114,7 @@ public final class Pushpad {
     return projectId;
   }
 
-  public static HttpResponse<String> requestRaw(
+  public HttpResponse<String> requestRaw(
       String method,
       String path,
       QueryParams query,
@@ -127,7 +160,7 @@ public final class Pushpad {
     return response;
   }
 
-  public static <T> T request(
+  public <T> T request(
       String method,
       String path,
       QueryParams query,
@@ -150,7 +183,7 @@ public final class Pushpad {
     }
   }
 
-  public static <T> T request(
+  public <T> T request(
       String method,
       String path,
       QueryParams query,
@@ -182,7 +215,14 @@ public final class Pushpad {
     return mapper;
   }
 
-  private static String buildEndpoint(String path, QueryParams query) {
+  private static Long normalizeProjectId(Long projectId) {
+    if (projectId == null || projectId <= 0) {
+      return null;
+    }
+    return projectId;
+  }
+
+  private static String normalizeBaseUrl(String baseUrl) {
     String base = baseUrl == null ? DEFAULT_BASE_URL : baseUrl.trim();
     if (base.isEmpty()) {
       base = DEFAULT_BASE_URL;
@@ -190,11 +230,15 @@ public final class Pushpad {
     if (base.endsWith("/")) {
       base = base.substring(0, base.length() - 1);
     }
+    return base;
+  }
+
+  private String buildEndpoint(String path, QueryParams query) {
     String resolvedPath = Objects.requireNonNullElse(path, "");
     if (!resolvedPath.startsWith("/")) {
       resolvedPath = "/" + resolvedPath;
     }
-    String endpoint = base + resolvedPath;
+    String endpoint = baseUrl + resolvedPath;
     if (query != null && !query.isEmpty()) {
       endpoint += "?" + query.toQueryString();
     }

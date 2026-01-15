@@ -2,7 +2,6 @@ package xyz.pushpad.notification;
 
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import xyz.pushpad.Pushpad;
 import xyz.pushpad.TestSupport;
@@ -13,22 +12,16 @@ import xyz.pushpad.TestSupport.RecordedRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NotificationsTest {
-  @AfterEach
-  void tearDown() {
-    TestSupport.resetPushpad();
-  }
-
   @Test
   void listNotifications() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "[{\"id\":1,\"body\":\"Hi\"}]"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       NotificationListParams params = new NotificationListParams()
           .setProjectId(123L)
           .setPage(2L);
-      List<Notification> notifications = Notifications.list(params);
+      List<Notification> notifications = pushpad.notifications().list(params);
 
       assertEquals(1, notifications.size());
       assertEquals(1L, notifications.get(0).getId());
@@ -47,8 +40,7 @@ class NotificationsTest {
   void createNotification() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(201, "{\"id\":123456789,\"scheduled\":9876}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
       NotificationCreateParams params = new NotificationCreateParams()
           .setProjectId(123L)
@@ -63,7 +55,7 @@ class NotificationsTest {
               .setIcon("https://example.com/assets/button-icon.png")
               .setAction("myActionName")));
 
-      NotificationCreateResponse response = Notifications.create(params);
+      NotificationCreateResponse response = pushpad.notifications().create(params);
 
       assertEquals(123456789L, response.getId());
       assertEquals(9876L, response.getScheduled());
@@ -96,10 +88,9 @@ class NotificationsTest {
   void getNotification() throws Exception {
     try (MockServer server = TestSupport.startServer(
         new MockResponse(200, "{\"id\":9876,\"body\":\"Hello\"}"))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      Notification notification = Notifications.get(9876L);
+      Notification notification = pushpad.notifications().get(9876L);
 
       assertEquals(9876L, notification.getId());
       assertEquals("Hello", notification.getBody());
@@ -115,10 +106,9 @@ class NotificationsTest {
   @Test
   void cancelNotification() throws Exception {
     try (MockServer server = TestSupport.startServer(new MockResponse(204, null))) {
-      Pushpad.setBaseUrl(server.baseUrl());
-      Pushpad.setAuthToken("TOKEN");
+      Pushpad pushpad = new Pushpad("TOKEN", null, server.baseUrl());
 
-      Notifications.cancel(5555L);
+      pushpad.notifications().cancel(5555L);
 
       RecordedRequest request = server.takeRequest();
       assertEquals("DELETE", request.method);

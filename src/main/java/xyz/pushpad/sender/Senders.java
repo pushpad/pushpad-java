@@ -2,15 +2,19 @@ package xyz.pushpad.sender;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.List;
+import java.util.Objects;
 import xyz.pushpad.Pushpad;
 import xyz.pushpad.PushpadException;
 
 public final class Senders {
-  private Senders() {
+  private final Pushpad pushpad;
+
+  public Senders(Pushpad pushpad) {
+    this.pushpad = Objects.requireNonNull(pushpad, "pushpad");
   }
 
-  public static List<Sender> list() throws PushpadException {
-    return Pushpad.request(
+  public List<Sender> list() throws PushpadException {
+    return pushpad.request(
         "GET",
         "/senders",
         null,
@@ -20,12 +24,12 @@ public final class Senders {
     );
   }
 
-  public static Sender create(SenderCreateParams params) throws PushpadException {
+  public Sender create(SenderCreateParams params) throws PushpadException {
     if (params == null) {
       throw new PushpadException("pushpad: params are required");
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "POST",
         "/senders",
         null,
@@ -35,12 +39,12 @@ public final class Senders {
     );
   }
 
-  public static Sender get(long senderId) throws PushpadException {
+  public Sender get(long senderId) throws PushpadException {
     if (senderId <= 0) {
       throw new PushpadException("pushpad: sender ID is required");
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "GET",
         String.format("/senders/%d", senderId),
         null,
@@ -50,7 +54,7 @@ public final class Senders {
     );
   }
 
-  public static Sender update(long senderId, SenderUpdateParams params) throws PushpadException {
+  public Sender update(long senderId, SenderUpdateParams params) throws PushpadException {
     if (params == null) {
       throw new PushpadException("pushpad: params are required");
     }
@@ -58,7 +62,7 @@ public final class Senders {
       throw new PushpadException("pushpad: sender ID is required");
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "PATCH",
         String.format("/senders/%d", senderId),
         null,
@@ -68,12 +72,12 @@ public final class Senders {
     );
   }
 
-  public static void delete(long senderId) throws PushpadException {
+  public void delete(long senderId) throws PushpadException {
     if (senderId <= 0) {
       throw new PushpadException("pushpad: sender ID is required");
     }
 
-    Pushpad.request(
+    pushpad.request(
         "DELETE",
         String.format("/senders/%d", senderId),
         null,

@@ -2,15 +2,19 @@ package xyz.pushpad.project;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.List;
+import java.util.Objects;
 import xyz.pushpad.Pushpad;
 import xyz.pushpad.PushpadException;
 
 public final class Projects {
-  private Projects() {
+  private final Pushpad pushpad;
+
+  public Projects(Pushpad pushpad) {
+    this.pushpad = Objects.requireNonNull(pushpad, "pushpad");
   }
 
-  public static List<Project> list() throws PushpadException {
-    return Pushpad.request(
+  public List<Project> list() throws PushpadException {
+    return pushpad.request(
         "GET",
         "/projects",
         null,
@@ -20,12 +24,12 @@ public final class Projects {
     );
   }
 
-  public static Project create(ProjectCreateParams params) throws PushpadException {
+  public Project create(ProjectCreateParams params) throws PushpadException {
     if (params == null) {
       throw new PushpadException("pushpad: params are required");
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "POST",
         "/projects",
         null,
@@ -35,12 +39,12 @@ public final class Projects {
     );
   }
 
-  public static Project get(long projectId) throws PushpadException {
+  public Project get(long projectId) throws PushpadException {
     if (projectId <= 0) {
       throw new PushpadException("pushpad: project ID is required");
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "GET",
         String.format("/projects/%d", projectId),
         null,
@@ -50,7 +54,7 @@ public final class Projects {
     );
   }
 
-  public static Project update(long projectId, ProjectUpdateParams params) throws PushpadException {
+  public Project update(long projectId, ProjectUpdateParams params) throws PushpadException {
     if (params == null) {
       throw new PushpadException("pushpad: params are required");
     }
@@ -58,7 +62,7 @@ public final class Projects {
       throw new PushpadException("pushpad: project ID is required");
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "PATCH",
         String.format("/projects/%d", projectId),
         null,
@@ -68,12 +72,12 @@ public final class Projects {
     );
   }
 
-  public static void delete(long projectId) throws PushpadException {
+  public void delete(long projectId) throws PushpadException {
     if (projectId <= 0) {
       throw new PushpadException("pushpad: project ID is required");
     }
 
-    Pushpad.request(
+    pushpad.request(
         "DELETE",
         String.format("/projects/%d", projectId),
         null,

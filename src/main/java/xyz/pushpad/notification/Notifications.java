@@ -2,24 +2,28 @@ package xyz.pushpad.notification;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.List;
+import java.util.Objects;
 import xyz.pushpad.Pushpad;
 import xyz.pushpad.PushpadException;
 import xyz.pushpad.QueryParams;
 
 public final class Notifications {
-  private Notifications() {
+  private final Pushpad pushpad;
+
+  public Notifications(Pushpad pushpad) {
+    this.pushpad = Objects.requireNonNull(pushpad, "pushpad");
   }
 
-  public static List<Notification> list(NotificationListParams params) throws PushpadException {
+  public List<Notification> list(NotificationListParams params) throws PushpadException {
     NotificationListParams resolved = params == null ? new NotificationListParams() : params;
-    long projectId = Pushpad.resolveProjectId(resolved.getProjectId());
+    long projectId = pushpad.resolveProjectId(resolved.getProjectId());
 
     QueryParams query = new QueryParams();
     if (resolved.getPage() != null && resolved.getPage() > 0) {
       query.add("page", String.valueOf(resolved.getPage()));
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "GET",
         String.format("/projects/%d/notifications", projectId),
         query,
@@ -29,13 +33,13 @@ public final class Notifications {
     );
   }
 
-  public static NotificationCreateResponse create(NotificationCreateParams params) throws PushpadException {
+  public NotificationCreateResponse create(NotificationCreateParams params) throws PushpadException {
     if (params == null) {
       throw new PushpadException("pushpad: params are required");
     }
-    long projectId = Pushpad.resolveProjectId(params.getProjectId());
+    long projectId = pushpad.resolveProjectId(params.getProjectId());
 
-    return Pushpad.request(
+    return pushpad.request(
         "POST",
         String.format("/projects/%d/notifications", projectId),
         null,
@@ -45,16 +49,16 @@ public final class Notifications {
     );
   }
 
-  public static NotificationCreateResponse send(NotificationCreateParams params) throws PushpadException {
+  public NotificationCreateResponse send(NotificationCreateParams params) throws PushpadException {
     return create(params);
   }
 
-  public static Notification get(long notificationId) throws PushpadException {
+  public Notification get(long notificationId) throws PushpadException {
     if (notificationId <= 0) {
       throw new PushpadException("pushpad: notification ID is required");
     }
 
-    return Pushpad.request(
+    return pushpad.request(
         "GET",
         String.format("/notifications/%d", notificationId),
         null,
@@ -64,12 +68,12 @@ public final class Notifications {
     );
   }
 
-  public static void cancel(long notificationId) throws PushpadException {
+  public void cancel(long notificationId) throws PushpadException {
     if (notificationId <= 0) {
       throw new PushpadException("pushpad: notification ID is required");
     }
 
-    Pushpad.request(
+    pushpad.request(
         "DELETE",
         String.format("/notifications/%d/cancel", notificationId),
         null,
