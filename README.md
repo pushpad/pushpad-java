@@ -1,5 +1,8 @@
 # Pushpad - Web Push Notifications
 
+[![Maven Central](https://img.shields.io/maven-central/v/xyz.pushpad/pushpad-java)](https://search.maven.org/artifact/xyz.pushpad/pushpad-java)
+![Build Status](https://github.com/pushpad/pushpad-java/workflows/CI/badge.svg)
+
 [Pushpad](https://pushpad.xyz) is a service for sending push notifications from websites and web apps. It uses the **Push API**, which is a standard supported by all major browsers (Chrome, Firefox, Opera, Edge, Safari).
 
 The notifications are delivered in real time even when the users are not on your website and you can target specific users or send bulk notifications.
